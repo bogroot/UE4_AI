@@ -26,6 +26,10 @@ public class GameAI : ModuleRules
 			new string[]
 			{
 				"Core",
+				"CoreUObject",
+				"Engine",
+				"InputCore",
+				"AIModule",
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);

@@ -7,7 +7,10 @@
 		{
 			"Name": "UE4_AI",
 			"Type": "Runtime",
-			"LoadingPhase": "Default"
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"AIModule"
+			]
 		}
 	],
 	"Plugins": [
@@ -18,6 +21,10 @@
 		{
 			"Name": "SampleAI",
 			"Enabled": false
+		},
+		{
+			"Name": "GameAI",
+			"Enabled": true
 		}
 	]
 }
