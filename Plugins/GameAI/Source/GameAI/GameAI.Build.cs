@@ -30,6 +30,7 @@ public class GameAI : ModuleRules
 				"Engine",
 				"InputCore",
 				"AIModule",
+				"GameplayTasks",
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);
