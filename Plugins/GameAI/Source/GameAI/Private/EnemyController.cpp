@@ -3,6 +3,7 @@
 
 #include "EnemyController.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Public/DrawDebugHelpers.h"
 
 AEnemyController::AEnemyController()
 {
@@ -13,12 +14,12 @@ AEnemyController::AEnemyController()
     LineOfSightTimer = 0.f;
     Degree = 0.f;
     Distance = 0.f;
-    CanAttack = false;
     HasLineOfSight = FName(TEXT("HasLineOfSight"));
     EnemyActor = FName(TEXT("EnemyActor"));
     HasChasedPlayer = FName(TEXT("HasChasedPlayer"));
     BattleMode = FName(TEXT("BattleMode"));
     PlayerActor = nullptr;
+    PlayerTag = "Player";
 }
 
 void AEnemyController::BeginPlay()
@@ -40,7 +41,6 @@ void AEnemyController::Tick(float DeltaTime)
         else
         {
             Bboard->SetValueAsBool(HasChasedPlayer, false);
-            CanAttack = false;
         }
     }
 }
@@ -62,13 +62,21 @@ void AEnemyController::OnPossess(APawn* InPawn)
 
 void AEnemyController::DetectPlayer()
 {
+    // linetrace
     APawn* playerPawn = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
     APawn* controlledPawn = AController::GetPawn();
     FVector pawnForward = controlledPawn->GetActorForwardVector();
     FVector enemyToPlayer = playerPawn->GetActorLocation()- controlledPawn->GetActorLocation();
     float size = enemyToPlayer.Size();
     enemyToPlayer.Normalize();
-    if ((UKismetMathLibrary::Acos(FVector::DotProduct(enemyToPlayer, pawnForward)) <= Degree) && (size <= Distance))
+
+    FHitResult hitResult;
+    FCollisionQueryParams queryParams = FCollisionQueryParams("", false, controlledPawn);
+    FVector start = controlledPawn->GetActorLocation();
+    FVector end = start + pawnForward * Distance;
+    GetWorld()->LineTraceSingleByChannel(hitResult, start, end, ECollisionChannel::ECC_WorldStatic, queryParams );
+    DrawDebugLine(GetWorld(), start, end, FColor(255, 0, 0), false, 0.0f, 0.0f, 10.0f);
+    if ((UKismetMathLibrary::Acos(FVector::DotProduct(enemyToPlayer, pawnForward)) <= Degree) && (size <= Distance) && hitResult.GetActor() && hitResult.GetActor()->ActorHasTag(PlayerTag) )
     {
         PlayerActor = playerPawn;
         Timer = 0;
@@ -86,7 +94,7 @@ void AEnemyController::DetectPlayer()
     }
 }
 
-void AEnemyController::EnterBattleMode()
+void AEnemyController::EnterBattleMode_Implementation()
 {
     if (Bboard)
     {
@@ -94,11 +102,12 @@ void AEnemyController::EnterBattleMode()
     }
 }
 
-void AEnemyController::QuitBattleMode()
+void AEnemyController::QuitBattleMode_Implementation()
 {
     if (Bboard)
     {
         Bboard->SetValueAsBool(BattleMode, false);
     }
 }
+
 

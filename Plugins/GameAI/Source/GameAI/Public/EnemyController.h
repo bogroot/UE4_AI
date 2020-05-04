@@ -34,49 +34,52 @@ public:
     UFUNCTION(BlueprintCallable)
     void DetectPlayer();
 
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
     void EnterBattleMode();
+    virtual void EnterBattleMode_Implementation();
 
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
     void QuitBattleMode();
+    virtual void QuitBattleMode_Implementation();
+
 
 public:
     int32 Timer;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BehaviorTree")
     UBehaviorTree* BehaviorTreeAsset;
 
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "BehaviorTree")
     UBlackboardComponent* Bboard;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Detect")
     float LineOfSightTimer;
 
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Detect")
     float AttackDistance;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Detect")
     float Degree;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Detect")
     float Distance;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    bool CanAttack;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BehaviorTree")
     FName HasLineOfSight;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BehaviorTree")
     FName EnemyActor;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BehaviorTree")
     FName HasChasedPlayer;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BehaviorTree")
     FName BattleMode;
 
-    UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "BehaviorTree")
     AActor* PlayerActor;
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Detect")
+    FName PlayerTag;
 
 };
