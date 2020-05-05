@@ -12,14 +12,16 @@ AEnemyController::AEnemyController()
     Timer = 0;
     AttackDistance = 120.f;
     LineOfSightTimer = 0.f;
-    Degree = 0.f;
-    Distance = 0.f;
+    Degree = 30.f;
+    Distance = 500.f;
     HasLineOfSight = FName(TEXT("HasLineOfSight"));
     EnemyActor = FName(TEXT("EnemyActor"));
     HasChasedPlayer = FName(TEXT("HasChasedPlayer"));
     BattleMode = FName(TEXT("BattleMode"));
     PlayerActor = nullptr;
     PlayerTag = "Player";
+    IsRandomPatrol = true;
+    PatrolRadius = 500.0f;
 }
 
 void AEnemyController::BeginPlay()

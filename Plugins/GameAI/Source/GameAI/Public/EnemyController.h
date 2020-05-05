@@ -82,4 +82,9 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Detect")
     FName PlayerTag;
 
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Patrol")
+    bool IsRandomPatrol;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Patrol")
+    float PatrolRadius;
 };
