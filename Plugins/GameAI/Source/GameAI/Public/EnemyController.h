@@ -6,7 +6,6 @@
 #include "AIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include "TimerManager.h"
 #include "BehaviorTree/BehaviorTree.h"
 #include "EnemyController.generated.h"
 
@@ -53,7 +52,7 @@ public:
     UBlackboardComponent* Bboard;
 
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Detect")
-    float LineOfSightTimer;
+    int32 LineOfSightTimer;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Detect")
     float AttackDistance;

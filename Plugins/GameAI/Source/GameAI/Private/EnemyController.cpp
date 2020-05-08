@@ -11,7 +11,7 @@ AEnemyController::AEnemyController()
     Bboard = CreateDefaultSubobject<UBlackboardComponent>(TEXT("Bboard"));
     Timer = 0;
     AttackDistance = 120.f;
-    LineOfSightTimer = 0.f;
+    LineOfSightTimer = 200;
     Degree = 30.f;
     Distance = 500.f;
     HasLineOfSight = FName(TEXT("HasLineOfSight"));
@@ -64,7 +64,6 @@ void AEnemyController::OnPossess(APawn* InPawn)
 
 void AEnemyController::DetectPlayer()
 {
-    // linetrace
     APawn* playerPawn = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
     APawn* controlledPawn = AController::GetPawn();
     FVector pawnForward = controlledPawn->GetActorForwardVector();
@@ -78,7 +77,7 @@ void AEnemyController::DetectPlayer()
     FVector end = start + pawnForward * Distance;
     GetWorld()->LineTraceSingleByChannel(hitResult, start, end, ECollisionChannel::ECC_WorldStatic, queryParams );
     DrawDebugLine(GetWorld(), start, end, FColor(255, 0, 0), false, 0.0f, 0.0f, 10.0f);
-    if ((UKismetMathLibrary::Acos(FVector::DotProduct(enemyToPlayer, pawnForward)) <= Degree) && (size <= Distance) && hitResult.GetActor() && hitResult.GetActor()->ActorHasTag(PlayerTag) )
+    if ((UKismetMathLibrary::Acos(FVector::DotProduct(enemyToPlayer, pawnForward)) <= Degree) && (size <= Distance))
     {
         PlayerActor = playerPawn;
         Timer = 0;
@@ -87,7 +86,7 @@ void AEnemyController::DetectPlayer()
     }
     else
     {
-        if (++Timer >= 200)
+        if (++Timer >= LineOfSightTimer)
         {
             Bboard->SetValueAsBool(HasLineOfSight, false);
             Bboard->SetValueAsObject(EnemyActor, nullptr);
