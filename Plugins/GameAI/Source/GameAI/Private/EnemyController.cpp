@@ -3,7 +3,6 @@
 
 #include "EnemyController.h"
 #include "Kismet/KismetMathLibrary.h"
-#include "Public/DrawDebugHelpers.h"
 
 AEnemyController::AEnemyController()
 {

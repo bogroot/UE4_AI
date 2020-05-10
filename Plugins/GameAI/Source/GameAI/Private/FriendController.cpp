@@ -3,7 +3,6 @@
 
 #include "FriendController.h"
 #include "Kismet/KismetMathLibrary.h"
-#include "Public/DrawDebugHelpers.h"
 
 AFriendController::AFriendController()
 {

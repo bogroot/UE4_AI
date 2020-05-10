@@ -28,18 +28,18 @@ public:
 
     virtual void OnPossess(APawn* InPawn) override;
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION()
     void DetectEnemy();
 
-    UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "BehaviorTree")
     void EnterBattleMode();
     virtual void EnterBattleMode_Implementation();
 
-    UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "BehaviorTree")
     void QuitBattleMode();
     virtual void QuitBattleMode_Implementation();
 
-    UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "BehaviorTree")
     void Dead();
     virtual void Dead_Implementation();
 
