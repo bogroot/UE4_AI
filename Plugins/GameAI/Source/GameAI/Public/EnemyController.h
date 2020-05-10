@@ -41,6 +41,10 @@ public:
     void QuitBattleMode();
     virtual void QuitBattleMode_Implementation();
 
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+    void Dead();
+    virtual void Dead_Implementation();
+
 
 public:
     int32 Timer;
@@ -74,6 +78,9 @@ public:
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BehaviorTree")
     FName BattleMode;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BehaviorTree")
+    FName IsDead;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "BehaviorTree")
     AActor* PlayerActor;

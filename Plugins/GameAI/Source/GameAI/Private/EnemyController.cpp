@@ -18,6 +18,7 @@ AEnemyController::AEnemyController()
     EnemyActor = FName(TEXT("EnemyActor"));
     HasChasedPlayer = FName(TEXT("HasChasedPlayer"));
     BattleMode = FName(TEXT("BattleMode"));
+    IsDead = FName(TEXT("IsDead"));
     PlayerActor = nullptr;
     PlayerTag = "Player";
     IsRandomPatrol = true;
@@ -76,7 +77,6 @@ void AEnemyController::DetectPlayer()
     FVector start = controlledPawn->GetActorLocation();
     FVector end = start + pawnForward * Distance;
     GetWorld()->LineTraceSingleByChannel(hitResult, start, end, ECollisionChannel::ECC_WorldStatic, queryParams );
-    DrawDebugLine(GetWorld(), start, end, FColor(255, 0, 0), false, 0.0f, 0.0f, 10.0f);
     if ((UKismetMathLibrary::Acos(FVector::DotProduct(enemyToPlayer, pawnForward)) <= Degree) && (size <= Distance))
     {
         PlayerActor = playerPawn;
@@ -108,6 +108,14 @@ void AEnemyController::QuitBattleMode_Implementation()
     if (Bboard)
     {
         Bboard->SetValueAsBool(BattleMode, false);
+    }
+}
+
+void AEnemyController::Dead_Implementation()
+{
+    if (Bboard)
+    {
+        Bboard->SetValueAsBool(IsDead, true);
     }
 }
 

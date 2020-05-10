@@ -10,7 +10,7 @@ AFriendController::AFriendController()
     PrimaryActorTick.bCanEverTick = true;
     Bboard = CreateDefaultSubobject<UBlackboardComponent>(TEXT("Bboard"));
     Timer = 0;
-    AttackDistance = 160.f;
+    AttackDistance = 180.f;
     LineOfSightTimer = 200;
     Degree = 30.f;
     Distance = 500.f;
@@ -18,6 +18,7 @@ AFriendController::AFriendController()
     EnemyActor = FName(TEXT("EnemyActor"));
     HasChasedEnemy = FName(TEXT("HasChasedEnemy"));
     BattleMode = FName(TEXT("BattleMode"));
+    IsDead = FName(TEXT("IsDead"));
     Enemy = nullptr;
     EnemyTag = "Enemy";
 }
@@ -60,7 +61,7 @@ void AFriendController::DetectEnemy()
     FVector start = controlledPawn->GetActorLocation();
     FVector end = start + pawnForward * Distance;
     GetWorld()->LineTraceSingleByChannel(hitResult, start, end, ECollisionChannel::ECC_WorldStatic, queryParams);
-    DrawDebugLine(GetWorld(), start, end, FColor(255, 0, 0), false, 0.0f, 0.0f, 10.0f);
+    
     if (hitResult.GetActor() && hitResult.GetActor()->ActorHasTag(EnemyTag))
     {
         Enemy = hitResult.GetActor();
@@ -92,5 +93,13 @@ void AFriendController::QuitBattleMode_Implementation()
     if (Bboard)
     {
         Bboard->SetValueAsBool(BattleMode, false);
+    }
+}
+
+void AFriendController::Dead_Implementation()
+{
+    if (Bboard)
+    {
+        Bboard->SetValueAsBool(IsDead, true);
     }
 }
